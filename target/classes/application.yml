@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: security-microservice
+  codec:
+    log-request-details: true
+
+# application.yml
+springdoc:
+  swagger-ui:
+    enabled: true
+
+app:
+  services:
+    client:
+      base-url: ${SPRING_URL:http://localhost:8082} # URL del ClientService (ajusta puerto/nombre)
+    employee:
+      base-url: ${FASTAPI_URL:http://localhost:8000} # URL del EmployeeService (ajusta puerto/nombre)
+    invitation:
+      base-url: ${NESTJS_URL:http://localhost:3000}
+
+jwt:
+  secret: ${JWT-KEY}
+
+server:
+  port: 8081
+
+logging:
+  level:
+    # Nivel de log general para toda la aplicación (puedes empezar con INFO)
+    root: INFO
+    # Nivel de log para los paquetes de Spring Web (muy útil para ver endpoints)
+    # DEBUG muestra información sobre qué handler se mapea, resultados, etc.
+    # TRACE muestra detalles mucho más finos (headers, etc. - ¡puede ser muy verboso!)
+    org.springframework.web: DEBUG
+    org:
+      springframework:
+        web:
+          reactive:
+            result:
+              method:
+                annotation: DEBUG
+        http:
+          codec: DEBUG
+    # Nivel de log para Hibernate/JPA (si usas base de datos)
+    org.hibernate.SQL: DEBUG # Muestra las sentencias SQL ejecutadas
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Muestra los parámetros de las SQL
+    # Nivel de log para tu propio código (¡IMPORTANTE: Cambia 'com.tu.paquete'!)
+    # Reemplaza 'com.tu.paquete' con el paquete base de tu microservicio
+    # donde están tus controladores (@RestController) y servicios (@Service)
+    com:
+      dev:
+        security: DEBUG
+

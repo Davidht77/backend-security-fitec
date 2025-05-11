@@ -1,0 +1,143 @@
+openapi: 3.0.4
+info:
+  title: SecurityPI definition
+  version: v0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+paths:
+  /auth/register/employee:
+    post:
+      tags:
+      - auth-controller
+      operationId: registrarse2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterEmployeeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /auth/register/client:
+    post:
+      tags:
+      - auth-controller
+      operationId: registrarse1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterClientRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /auth/login:
+    post:
+      tags:
+      - auth-controller
+      operationId: logearse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/admin/invite-employee:
+    post:
+      tags:
+      - auth-controller
+      operationId: inviteEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InviteEmployeeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/InvitationTokenResponse"
+components:
+  schemas:
+    RegisterEmployeeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: integer
+          format: int32
+        phone:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        sedeId:
+          type: string
+          format: uuid
+        invitationToken:
+          type: string
+    RegisterClientRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: integer
+          format: int32
+        phone:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        planName:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        userType:
+          type: string
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    InviteEmployeeRequest:
+      type: object
+      properties:
+        invitedEmail:
+          type: string
+        invitationType:
+          type: string
+    InvitationTokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        invitedEmail:
+          type: string
+        expiresAt:
+          type: string
